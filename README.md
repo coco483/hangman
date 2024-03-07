@@ -7,7 +7,6 @@ found bugs:
  - 첫 시도에 무조건 Please enter an alphabet이 뜬다
 
 future implementation 
- - game over image
  - randomWord() implementation
 
 fixed bugs

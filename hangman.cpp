@@ -2,8 +2,9 @@
 #include <iostream>
 #include <string>
 #include <set>
+#include <cassert>
 
-#define MAX_LIVES 7;
+#define MAX_LIVES 7; //shouldn't be bigger than 7
 
 using std::cout; using std::cin; using std::endl;
 using std::string; using std::set;
@@ -11,7 +12,7 @@ using std::string; using std::set;
 void startGame();
 string randomWord();
 void printHangman(int);
-
+void printDeadHangman();
 int main(void){
     //using namespace std;
     while (true){
@@ -44,7 +45,7 @@ void startGame(void){
             cout << "\n You guessed the word! congrats!" <<endl;
             break;
         }
-        cout << endl << "Enter an alphabet: ";
+        cout << "\n\nEnter an alphabet: ";
         ch = getchar();
         while(getchar() != '\n'){}
         if (!isalpha(ch)){
@@ -58,7 +59,8 @@ void startGame(void){
         if ((word.find(ch) != string::npos)) cout << "success!" << endl;
         else {
             if (--lives <= 0) {
-                cout << "Game over!" << endl;
+                printDeadHangman();
+                cout << "Game over!\n" << endl;
                 break;
             }
             cout << "failed! " << lives << " lives left!" << endl;
@@ -68,6 +70,7 @@ void startGame(void){
 
 void printHangman(int lives)
 {
+    assert(lives <= 7);
     string hangmanImage = //9*7
         "   +---+\n"
         "   |   |\n"
@@ -75,12 +78,23 @@ void printHangman(int lives)
         "  /|\\  |\n"
         "  / \\  |\n"
         "       |\n"
-        "========\n";
-    int positions[] = {40, 38, 31, 30, 29, 21};
+        "========    ";
+    int mask[] = {40, 38, 31, 30, 29, 21};
     for (int i=0; i <lives-1; i++){
-        hangmanImage[positions[i]] = ' ';
+        hangmanImage[mask[i]] = ' ';
     }
-    cout<<hangmanImage<<endl;
+    cout<<hangmanImage;
+}
+
+void printDeadHangman(){
+    cout << 
+        "   +---+\n"
+        "   |   |\n"
+        "   O   |\n"
+        "       |\n"
+        "  \\ /  |\n"
+        "  \\|/  |\n"
+        "========\n";
 }
 
 string randomWord(){
